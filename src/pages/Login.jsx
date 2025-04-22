@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { usuarios } from '../services/database'
-import { alerta } from '../helpers/funciones'
+import { alerta, generarToken } from '../helpers/funciones'
 import { useNavigate } from 'react-router-dom'
 import './Login.css'
 function Login() {
@@ -8,12 +8,16 @@ function Login() {
   const [getPassword, setPassword] = useState()
   let redireccion = useNavigate()
 
+
+
   function buscarUsuario() {
     let usuario = usuarios.find((item) => getUser === item.usuario && getPassword === item.contrasena)
     return usuario
   }
   function iniciarSesion() {
     if (buscarUsuario()) {
+      let tokenAcceso = generarToken()
+      localStorage.setItem("token", tokenAcceso)
       alerta("Bienvenido", "Acceso al sistema", "success")
       redireccion("/home")
     } else {
