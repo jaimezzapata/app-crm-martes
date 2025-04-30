@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { alerta, generarToken } from "../helpers/funciones";
+import { alerta, generarToken, generarId } from "../helpers/funciones";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 let apiUsuarios = "https://back-json-server-martes.onrender.com/usuarios";
@@ -41,6 +41,7 @@ function Login() {
 
   function registrarUsuario() {
     let usuarioNuevo = {
+      id: generarId(),
       nombre: getName,
       usuario: getUser,
       contrasena: getPassword,
@@ -59,7 +60,6 @@ function Login() {
         alerta("Correcto", "Usuario registrado correctamente", "success");
         getUsuarios();
       });
-      redireccion("/");
     }
   }
 
