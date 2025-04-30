@@ -7,6 +7,8 @@ let apiUsuarios = "https://back-json-server-martes.onrender.com/usuarios";
 function Login() {
   const [getUser, setUser] = useState();
   const [getPassword, setPassword] = useState();
+  const [getEmail, setEmail] = useState();
+  const [getName, setName] = useState();
   const [usuarios, setUsuarios] = useState([]);
   let redireccion = useNavigate();
 
@@ -15,7 +17,6 @@ function Login() {
       .then((response) => response.json())
       .then((data) => setUsuarios(data));
   }
-
   useEffect(() => {
     getUsuarios();
   }, []);
@@ -37,6 +38,31 @@ function Login() {
       alerta("Error", "Error de credenciales", "error");
     }
   }
+
+  function registrarUsuario() {
+    let usuarioNuevo = {
+      nombre: getName,
+      usuario: getUser,
+      contrasena: getPassword,
+      correo: getEmail,
+    };
+    let auth = usuarios.some(
+      (item) => item.usuario == getUser || item.correo == getEmail
+    );
+    if (auth) {
+      alerta("Error", "Usuario ya existe en la base de datos", "error");
+    } else {
+      fetch(apiUsuarios, {
+        method: "POST",
+        body: JSON.stringify(usuarioNuevo),
+      }).then(() => {
+        alerta("Correcto", "Usuario registrado correctamente", "success");
+        getUsuarios();
+      });
+      redireccion("/");
+    }
+  }
+
   return (
     <div className="container">
       <input id="signup_toggle" type="checkbox" />
@@ -67,11 +93,33 @@ function Login() {
         </div>
         <div className="form_back">
           <div className="form_details">SignUp</div>
-          <input type="text" className="input" placeholder="Firstname" />
-          <input type="text" className="input" placeholder="Username" />
-          <input type="text" className="input" placeholder="Password" />
-          <input type="text" className="input" placeholder="Confirm Password" />
-          <button className="btn">Signup</button>
+          <input
+            onChange={(e) => setName(e.target.value)}
+            type="text"
+            className="input"
+            placeholder="Firstname"
+          />
+          <input
+            onChange={(e) => setUser(e.target.value)}
+            type="text"
+            className="input"
+            placeholder="Username"
+          />
+          <input
+            onChange={(e) => setPassword(e.target.value)}
+            type="text"
+            className="input"
+            placeholder="Password"
+          />
+          <input
+            onChange={(e) => setEmail(e.target.value)}
+            type="text"
+            className="input"
+            placeholder="Email"
+          />
+          <button type="button" onClick={registrarUsuario} className="btn">
+            Signup
+          </button>
           <span className="switch">
             Already have an account?
             <label for="signup_toggle" className="signup_tog">
