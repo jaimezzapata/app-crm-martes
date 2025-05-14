@@ -1,5 +1,5 @@
 import { alerta } from "../helpers/funciones";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const MenuLateral = () => {
   let usuario = JSON.parse(localStorage.getItem("usuario"));
@@ -25,15 +25,15 @@ const MenuLateral = () => {
         alt="Logo"
       />
       <nav className="aplicacion__menu-lateral-navegacion">
-        <a className="aplicacion__menu-lateral-navegacion-item" href="">
+        <Link className="aplicacion__menu-lateral-navegacion-item" to="/home">
           Inicio
-        </a>
-        <a className="aplicacion__menu-lateral-navegacion-item" href="">
+        </Link>
+        <Link className="aplicacion__menu-lateral-navegacion-item" to="envios">
           Gestión de envíos
-        </a>
-        <a className="aplicacion__menu-lateral-navegacion-item" href="">
+        </Link>
+        <Link className="aplicacion__menu-lateral-navegacion-item" to="clientes">
           Gestión de clientes
-        </a>
+        </Link>
         <button
           type="button"
           onClick={cerrarSesion}
