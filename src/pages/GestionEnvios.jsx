@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 let apiEnvios = "https://back-json-server-martes.onrender.com/envios";
 const GestionEnvios = () => {
   let usuarioLogueado = JSON.parse(localStorage.getItem("usuario"))
@@ -16,9 +17,25 @@ const GestionEnvios = () => {
     let filtroEnvios = envios.filter((item) => item.usuarioId == usuarioLogueado.id)
     return filtroEnvios
   }
+  let filtradoUsuarios = filtrarEnviosUsuario()
 
   return (
-    <div>GestionEnvios</div>
+    <div className="cards">
+      {
+        filtradoUsuarios.map((item) => (
+          <div className="card">
+            <p>Id Envio: {item.idEnvio}</p>
+            <p>Producto: {item.producto}</p>
+            <p>Destino: {item.destino}</p>
+            <p>Usuario: {usuarioLogueado.nombre}</p>
+            <div className="card__buttons">
+              <button className="card__button">Eliminar</button>
+              <Link className="card__button">Editar</Link>
+            </div>
+          </div>
+        ))
+      }
+    </div>
   )
 }
 
